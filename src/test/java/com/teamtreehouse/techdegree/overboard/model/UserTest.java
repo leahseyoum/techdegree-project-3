@@ -40,8 +40,7 @@ public class UserTest {
         int prevReputation = user1.getReputation();
         user3.upVote(question1);
 
-        assertEquals(0, prevReputation);
-        assertEquals(5, user1.getReputation());
+        assertEquals(prevReputation + 5, user1.getReputation());
     }
 
     @Test
@@ -49,8 +48,7 @@ public class UserTest {
         int prevReputation = user2.getReputation();
         user3.upVote(answer1);
 
-        assertEquals(0, prevReputation);
-        assertEquals(10, user2.getReputation());
+        assertEquals(prevReputation + 10, user2.getReputation());
     }
 
     @Test
@@ -58,16 +56,47 @@ public class UserTest {
         int prevReputation = user2.getReputation();
         user1.acceptAnswer(answer1);
 
-        assertEquals(0, prevReputation);
-        assertEquals(15, user2.getReputation());
+        assertEquals(prevReputation + 15, user2.getReputation());
+    }
+
+    //exceeds test
+    @Test
+    public void answerersReputationDecreasesBy1AfterAnswerDownVote() throws Exception {
+        int prevReputation = user2.getReputation();
+        user3.downVote(answer1);
+
+        assertEquals(prevReputation - 1, user2.getReputation());
+    }
+
+    //exceeds test
+    @Test
+    public void multipleUpVotesIncrementedCorrectly() throws Exception {
+        int prevReputation = user2.getReputation();
+        user1.upVote(answer1);
+        user3.upVote(answer1);
+
+
+        assertEquals(prevReputation + 20, user2.getReputation());
+    }
+
+    //exceeds test
+    @Test
+    public void multipleDownVotesDecrementedCorrectly() throws Exception {
+        int prevReputation = user2.getReputation();
+        user1.downVote(answer1);
+        user3.downVote(answer1);
+
+
+        assertEquals(prevReputation - 2, user2.getReputation());
     }
 
     @Test
     public void answerAcceptedSuccessfullyByAuthor() throws Exception {
         user1.acceptAnswer(answer1);
 
-        assertEquals(true, answer1.isAccepted());
+        assertTrue(answer1.isAccepted());
     }
+
 
     @Test
     public void userCannotUpVoteOwnQuestion() throws Exception {
